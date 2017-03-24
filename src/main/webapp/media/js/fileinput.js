@@ -768,20 +768,20 @@
             self._raise('filefoldererror', [folders, msg]);
         },
         _showUploadError: function (msg, params, event) {
-        	console.log(msg);
-        	console.log(params);
-            var self = this, $error = self.$errorContainer, ev = event || 'fileuploaderror', e = params && params.id ?
-            '<li data-file-id="' + params.fileNames + '">' + msg + '</li>' : '<li>' + msg + '</li>';
-            if ($error.find('ul').length === 0) {
-                self._addError('<ul>' + e + '</ul>');
-            } else {
-                $error.find('ul').append(e);
-            }
-            $error.fadeIn(800);
-            self._raise(ev, [params, msg]);
-            self.$container.removeClass('file-input-new');
-            addCss(self.$container, 'has-error');
-            return true;
+//        	console.log(msg);
+//        	console.log(params);
+//            var self = this, $error = self.$errorContainer, ev = event || 'fileuploaderror', e = params && params.id ?
+//            '<li data-file-id="' + params.fileNames + '">' + msg + '</li>' : '<li>' + msg + '</li>';
+//            if ($error.find('ul').length === 0) {
+//                self._addError('<ul>' + e + '</ul>');
+//            } else {
+//                $error.find('ul').append(e);
+//            }
+//            $error.fadeIn(800);
+//            self._raise(ev, [params, msg]);
+//            self.$container.removeClass('file-input-new');
+//            addCss(self.$container, 'has-error');
+//            return true;
         },
         _showError: function (msg, params, event) {
             var self = this, $error = self.$errorContainer, ev = event || 'fileerror';

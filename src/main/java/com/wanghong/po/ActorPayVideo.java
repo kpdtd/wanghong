@@ -1,12 +1,11 @@
 package com.wanghong.po;
 
-import java.util.*;
-
 public class ActorPayVideo {
 	private Integer id;
 	private Integer actorId;
 	private Integer type;
 	private String savePath;
+	private String image;
 	private Integer price;
 	private String introduction;
 	private Integer status;
@@ -75,6 +74,14 @@ public class ActorPayVideo {
 	
 	public java.util.Date getCreateTime() {
 		return this.createTime;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 }
 

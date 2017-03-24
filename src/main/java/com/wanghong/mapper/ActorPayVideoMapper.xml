@@ -20,7 +20,7 @@
 	<!-- 查询公用抽取的列 -->
 	<sql id="columns_all">
 	    <![CDATA[
-		id,actor_id,type,save_path,price,introduction,status,reason,create_time
+		id,actor_id,type,image,save_path,price,introduction,status,reason,create_time
 	    ]]>
 	</sql>
 
@@ -30,6 +30,7 @@
         	id,
         	actor_id,
         	type,
+        	image,
         	save_path,
         	price,
         	introduction,
@@ -40,6 +41,7 @@
         	#{id},
         	#{actorId},
         	#{type},
+        	#{image},
         	#{savePath},
         	#{price},
         	#{introduction},
@@ -58,6 +60,9 @@
 	        </if>
 	        <if test="type != null">
 	        	type = #{type},
+	        </if>
+	        <if test="image != null">
+	        	image = #{image},
 	        </if>
 	        <if test="savePath != null">
 	        	save_path = #{savePath},
@@ -107,6 +112,9 @@
 			</if>
 			<if test="type != null">
 				AND type = #{type}
+			</if>
+			<if test="image != null">
+				AND image = #{image}
 			</if>
 			<if test="savePath != null">
 				AND save_path = #{savePath}

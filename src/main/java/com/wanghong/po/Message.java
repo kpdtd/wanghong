@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Message {
     private Status status;
     private String statusMsg = "";
+    private String fileName = "";
     private String filePath = "";
     private ArrayList<Integer> errorKys;
     private String error = "";
@@ -50,6 +51,14 @@ public class Message {
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }
 

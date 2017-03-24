@@ -45,19 +45,18 @@ public abstract class BaseAction {
 	public static final boolean SUCCESS = true;
 	@Autowired
 	DictionaryService dictionaryService;
-	
+
 	public static final boolean FAIL = false;
-	
+
 	/**
 	 * 关闭窗口并且刷新页面
 	 */
 	protected static final String RESULT_TYPE_CLOSE_BOX_SELFPAGE = "close_box_selfpage";
-	
+
 	/**
 	 * 关闭窗口并且执行函数
 	 */
 	protected static final String RESULT_TYPE_CLOSE_BOX_FUNCTION = "close_box_function";
-
 
 	@ModelAttribute
 	public void setReqAndRes(HttpServletRequest request, HttpServletResponse response) {
@@ -65,13 +64,13 @@ public abstract class BaseAction {
 		this.response = response;
 		this.session = request.getSession();
 	}
-	
-	public String getImgFilePath() throws SQLException{
+
+	public String getImgFilePath() throws SQLException {
 		DataDictionary dic = dictionaryService.getDicByKey("file_save_path");
 		return dic.getValue();
 	}
-	
-	public String getVideoFilePath(){
+
+	public String getVideoFilePath() {
 //		DataDictionary dic = dictionaryService.getDicByKey(Constant.D_VIDEO_SAVE_PATH);
 //		return dic.getValue();
 		return null;
@@ -79,22 +78,19 @@ public abstract class BaseAction {
 
 	/**
 	 * 将数据信息写到客户端
+	 * 
 	 * @param resStr
+	 * @throws IOException
 	 */
-	protected void writerToClient(String respData) {
+	protected void writerToClient(String respData) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter writer = null;
-		try {
-			writer = response.getWriter();
-			writer.write(respData);
-			writer.flush();
-		}
-		catch(IOException e) {
-			LogFactory.getInstance().getLogger().error("系统错误：" + e.getMessage());
-		}
+		writer = response.getWriter();
+		writer.write(respData);
 	}
 
-	protected void writerToClient(List<?> data, int length, int recordsDisplay, int recordsFiltered, int recordsTotal, int start) {
+	protected void writerToClient(List<?> data, int length, int recordsDisplay, int recordsFiltered, int recordsTotal,
+			int start) throws Exception {
 		Map<String, Object> respData = new HashMap<String, Object>();
 		respData.put("data", data);
 		respData.put("length", length);
@@ -102,6 +98,7 @@ public abstract class BaseAction {
 		respData.put("recordsFiltered", recordsFiltered);
 		respData.put("recordsTotal", recordsTotal);
 		respData.put("start", start);
+		respData.put("imgPath", getImgFilePath());
 		Gson g = new GsonBuilder().serializeNulls().create();
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter writer = null;
@@ -109,13 +106,13 @@ public abstract class BaseAction {
 			writer = response.getWriter();
 			writer.write(g.toJson(respData));
 			writer.flush();
-		}
-		catch(IOException e) {
+		} catch (IOException e) {
 			LogFactory.getInstance().getLogger().error("系统错误：" + e.getMessage());
 		}
 	}
 
-	protected Map<String, Object> convertToMap(List<?> data, int length, int recordsDisplay, int recordsFiltered, int recordsTotal, int start) {
+	protected Map<String, Object> convertToMap(List<?> data, int length, int recordsDisplay, int recordsFiltered,
+			int recordsTotal, int start) {
 		Map<String, Object> respData = new HashMap<String, Object>();
 		respData.put("data", data);
 		respData.put("length", length);
@@ -125,29 +122,32 @@ public abstract class BaseAction {
 		respData.put("start", start);
 		return respData;
 	}
-	
+
 	/**
 	 * 组合列表的属性排序方式
+	 * 
 	 * @return
 	 */
 	protected void groupSortMap(Map<String, Object> map) {
 		String sortCol = request.getParameter("iSortCol_0");// 点击排序列的数组序号
-		String sSortDir_0 = request.getParameter("sSortDir_0"); // 点击拍序列的排序方式desc asc
+		String sSortDir_0 = request.getParameter("sSortDir_0"); // 点击拍序列的排序方式desc
+																// asc
 		String mDataProp_ = request.getParameter("mDataProp_" + sortCol); // 获取拍序列的属性
 		map.put("prop", StringUtil.humpToLine(mDataProp_));
 		map.put("sort", sSortDir_0);
 		map.put("startPage", getStart());
 		map.put("pageSize", getIDisplayLength());
 	}
-	
+
 	/**
 	 * 文件上传
+	 * 
 	 * @param serverSavePath
 	 * @return
 	 * @throws Exception
 	 */
-	protected Map<String,Object> fileUpload(String serverSavePath,String name) throws Exception {
-		Map<String,Object> map = new HashMap<String,Object>();
+	protected Map<String, Object> fileUpload(String serverSavePath, String name) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		CommonsMultipartFile orginalFile = (CommonsMultipartFile) multipartRequest.getFile(name);// 表单中对应的文件名；
 		if (orginalFile != null && !orginalFile.isEmpty()) {// 如果有文章中带有附件
@@ -157,7 +157,8 @@ public abstract class BaseAction {
 			String filePath = FileUtil.createFilePath(serverSavePath);
 			filename = prefix + "." + ext;
 			String fileSavePath = filePath + File.separator + filename;
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(serverSavePath + File.separator + fileSavePath));// 存放文件的绝对路径
+			DataOutputStream out = new DataOutputStream(
+					new FileOutputStream(serverSavePath + File.separator + fileSavePath));// 存放文件的绝对路径
 			InputStream is = null;// 附件输入流
 			try {
 				is = orginalFile.getInputStream();
@@ -178,15 +179,16 @@ public abstract class BaseAction {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 文件上传
+	 * 
 	 * @param serverSavePath
 	 * @return
 	 * @throws Exception
 	 */
-	protected Map<String,Object> fileUploadVideo(String serverSavePath,String name) throws Exception {
-		Map<String,Object> map = new HashMap<String,Object>();
+	protected Map<String, Object> fileUploadVideo(String serverSavePath, String name) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		CommonsMultipartFile orginalFile = (CommonsMultipartFile) multipartRequest.getFile(name);// 表单中对应的文件名；
 		if (orginalFile != null && !orginalFile.isEmpty()) {// 如果有文章中带有附件
@@ -197,7 +199,8 @@ public abstract class BaseAction {
 			String filePath = FileUtil.createFilePath(serverSavePath);
 			filename = prefix + "." + ext;
 			String fileSavePath = filePath + File.separator + filename;
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(serverSavePath + File.separator + fileSavePath));// 存放文件的绝对路径
+			DataOutputStream out = new DataOutputStream(
+					new FileOutputStream(serverSavePath + File.separator + fileSavePath));// 存放文件的绝对路径
 			InputStream is = null;// 附件输入流
 			try {
 				is = orginalFile.getInputStream();
@@ -219,39 +222,54 @@ public abstract class BaseAction {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 描述: 设置下行成功JSON <br>
 	 *
-	 * @param response - HttpServletResponse
-	 * @param data - 数据，可为空
-	 * @param msg - 描述
-	 * @param resultType - 返回操作类型
+	 * @param response
+	 *            - HttpServletResponse
+	 * @param data
+	 *            - 数据，可为空
+	 * @param msg
+	 *            - 描述
+	 * @param resultType
+	 *            - 返回操作类型
 	 */
-	protected void setJsonSuccess(HttpServletResponse response,Object data, String msg , String resultType) {
-		setJson(response , data , SUCCESS,0,msg , resultType);
+	protected void setJsonSuccess(HttpServletResponse response, Object data, String msg, String resultType) {
+		setJson(response, data, SUCCESS, 0, msg, resultType);
 	}
 
 	/**
 	 * 描述: 设置下行失败JSON <br>
 	 *
-	 * @param response - HttpServletResponse
-	 * @param data - 数据，可为空
-	 * @param code - 信息代码
-	 * @param msg - 描述
-	 * @param resultType - 返回操作类型
+	 * @param response
+	 *            - HttpServletResponse
+	 * @param data
+	 *            - 数据，可为空
+	 * @param code
+	 *            - 信息代码
+	 * @param msg
+	 *            - 描述
+	 * @param resultType
+	 *            - 返回操作类型
 	 */
-	protected void setJsonFail(HttpServletResponse response, Object data,int code, String msg , String resultType) {
-		setJson(response , data , FAIL,code,msg , resultType);
+	protected void setJsonFail(HttpServletResponse response, Object data, int code, String msg, String resultType) {
+		setJson(response, data, FAIL, code, msg, resultType);
 	}
+
 	/**
 	 * 描述: 设置下行JSON <br>
 	 *
-	 * @param data - 数据，可为空
-	 * @param success - 成功还是失败
-	 * @param code - 信息代码
-	 * @param msg - 描述
-	 * @param resultType - 返回操作类型
+	 * @param data
+	 *            - 数据，可为空
+	 * @param success
+	 *            - 成功还是失败
+	 * @param code
+	 *            - 信息代码
+	 * @param msg
+	 *            - 描述
+	 * @param resultType
+	 *            - 返回操作类型
 	 */
 	protected void setJson(HttpServletResponse response, Object data, boolean success, int code, String msg,
 			String resultType) {
@@ -266,23 +284,27 @@ public abstract class BaseAction {
 			respData.put("code", code);
 			respData.put("resultType", resultType);
 			Gson g = new GsonBuilder().serializeNulls().create();
-		
+
 			response.getWriter().write(g.toJson(respData));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	/**
 	 * 描述: 设置下行JSON <br>
 	 *
-	 * @param data - 数据，可为空
-	 * @param success - 成功还是失败
-	 * @param code - 信息代码
-	 * @param msg - 描述
+	 * @param data
+	 *            - 数据，可为空
+	 * @param success
+	 *            - 成功还是失败
+	 * @param code
+	 *            - 信息代码
+	 * @param msg
+	 *            - 描述
 	 */
-	protected void setJson(HttpServletResponse response, Object data,boolean success, int code , String msg) {
+	protected void setJson(HttpServletResponse response, Object data, boolean success, int code, String msg) {
 		response.setCharacterEncoding("UTF-8");
 		try {
 			Map<String, Object> respData = new HashMap<String, Object>();
@@ -298,48 +320,52 @@ public abstract class BaseAction {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 描述: 设置下行成功JSON <br>
 	 *
-	 * @param response - HttpServletResponse
-	 * @param data - 数据，可为空
-	 * @param msg - 描述
+	 * @param response
+	 *            - HttpServletResponse
+	 * @param data
+	 *            - 数据，可为空
+	 * @param msg
+	 *            - 描述
 	 */
-	protected void setJsonSuccess(HttpServletResponse response, Object data , String msg) {
-		setJson(response , data , SUCCESS,0,msg);
+	protected void setJsonSuccess(HttpServletResponse response, Object data, String msg) {
+		setJson(response, data, SUCCESS, 0, msg);
 	}
-	
+
 	/**
 	 * 描述: 设置下行失败JSON <br>
 	 *
-	 * @param response - HttpServletResponse
-	 * @param data - 数据，可为空
-	 * @param code - 信息代码
-	 * @param msg - 描述
+	 * @param response
+	 *            - HttpServletResponse
+	 * @param data
+	 *            - 数据，可为空
+	 * @param code
+	 *            - 信息代码
+	 * @param msg
+	 *            - 描述
 	 */
-	protected void setJsonFail(HttpServletResponse response, Object data , int code , String msg) {
-		setJson(response , data , FAIL,code,msg);
+	protected void setJsonFail(HttpServletResponse response, Object data, int code, String msg) {
+		setJson(response, data, FAIL, code, msg);
 	}
-
 
 	public int getStart() {
 		String iDisplayStart = request.getParameter("iDisplayStart");
 
-		if(StringUtils.isBlank(iDisplayStart)) {
+		if (StringUtils.isBlank(iDisplayStart)) {
 			return start;
-		}
-		else {
+		} else {
 			return Integer.valueOf(iDisplayStart);
 		}
 	}
 
 	public int getIDisplayLength() {
 		String length = request.getParameter("iDisplayLength");
-		if(StringUtils.isBlank(length)) {
+		if (StringUtils.isBlank(length)) {
 			return iDisplayLength;
-		}
-		else {
+		} else {
 			return Integer.valueOf(length);
 		}
 	}

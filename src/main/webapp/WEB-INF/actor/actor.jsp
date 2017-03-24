@@ -81,6 +81,7 @@
 													<th>手机号</th>
 													<th>状态</th>
 													<th>创建时间</th>
+													<th>相册</th>
 													<th>操作</th>
 												</tr>
 											</thead>
@@ -213,6 +214,15 @@
 							return '';
 						}
 					}
+				},  {
+					"sClass" : "center",
+					"mDataProp" : "id",
+					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+						var html = "";
+						html += " <a class='btn mini green' href='javascript:;' onclick=addPhoto('"+oData.id+"')><i class='icon-plus'></i> 添加</a>";
+						html += " <a class='btn mini green' href='javascript:;' onclick=actorPhoto('"+oData.id+"')><i class='icon-search'></i> 查看</a>";
+						return $(nTd).html(html);	
+					}
 				}, {
 					"sClass" : "center",
 					"mDataProp" : "id",
@@ -224,6 +234,8 @@
 						}else{
 							html += " <a class='btn mini green' href='javascript:;' onclick=confirm('"+oData.id+"',"+oData.state+",'您确认要下线该主播吗?')><i class='icon-remove'></i> 下线</a>";
 						}
+						
+						html += " <a class='btn mini green' href='javascript:;' onclick=videoManage('"+oData.id+"')><i class='icon-facetime-video'></i> 视频管理</a>";
 						return $(nTd).html(html);	
 					}
 				} ],
@@ -247,8 +259,18 @@
 			App.Modal.load("./add",{'id' : id},{"title":"添加主播"});
 		}
 		
+		function videoManage(id){
+			App.Modal.load("./addVideo",{'id' : id},{"title":"视频管理"});
+		}
+		
 		function edit(id){
 			App.Modal.load("./edit",{'id' : id},{"title":"编辑主播"});
+		}
+		function addPhoto(id){
+			App.Modal.load("./addPhoto",{'id' : id},{"title":"相册添加"});
+		}
+		function actorPhoto(id){
+			App.Modal.load("./actorPhoto",{'id' : id},{"title":"主播相册"});
 		}
 	</script>
 </body>
