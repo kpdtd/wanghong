@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.csxm</groupId>
-	<artifactId>tasting_admin</artifactId>
+	<groupId>com.wanghong</groupId>
+	<artifactId>wanghong</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>tasting_admin project</name>
+	<name>wanghong project</name>
 	<properties>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.security.version>4.0.3.RELEASE</spring.security.version>

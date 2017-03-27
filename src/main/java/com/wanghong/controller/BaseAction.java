@@ -24,7 +24,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.wanghong.constant.Constant;
 import com.wanghong.po.DataDictionary;
 import com.wanghong.service.DictionaryService;
 import com.wanghong.util.FileUtil;
@@ -98,7 +97,6 @@ public abstract class BaseAction {
 		respData.put("recordsFiltered", recordsFiltered);
 		respData.put("recordsTotal", recordsTotal);
 		respData.put("start", start);
-		respData.put("imgPath", getImgFilePath());
 		Gson g = new GsonBuilder().serializeNulls().create();
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter writer = null;

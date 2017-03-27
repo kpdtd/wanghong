@@ -27,14 +27,15 @@
 											data-provides="fileupload">
 											<div class="fileupload-new thumbnail"
 												style="width: 150px; height: 115px;">
-												<img src="../media/image/defalut.jpg" alt="" />
+												<img id="screenImg" src="../media/image/defalut.jpg" alt="" />
 											</div>
 											<div class="fileupload-preview fileupload-exists thumbnail"
 												style="max-width: 100px; max-height: 75px; line-height: 20px;"></div>
 											<div>
 												<span class="btn btn-file"> <span
 													class="fileupload-new">选择图片</span> <span
-													class="fileupload-exists">更改</span> <input type="file"
+													class="fileupload-exists">更改</span> 
+													<input type="file"
 													class="default" name="image" />
 												</span> <a href="#" class="btn fileupload-exists"
 													data-dismiss="fileupload">删除</a>
@@ -49,7 +50,7 @@
 											data-provides="fileupload">
 											<div class="fileupload-new thumbnail"
 												style="width: 150px; height: 115px;">
-												<img src="../media/image/timg.jpg" alt="" />
+												<img id="actorVideo" src="../media/image/timg.jpg" alt="" />
 											</div>
 											<div class="fileupload-preview fileupload-exists thumbnail"
 												style="max-width: 100px; max-height: 75px; line-height: 20px;"></div>
@@ -68,7 +69,7 @@
 									<label class="control-label" for="firstName">价格<span
 										class="required">*</span></label>
 									<div class="controls">
-										<input type="text" name="price" class="m-wrap span10"
+										<input type="text" id="price" name="price" class="m-wrap span10"
 											placeholder="元" value="" maxlength="18">
 									</div>
 								</div>
@@ -76,7 +77,7 @@
 									<label class="control-label" for="firstName">状态<span
 										class="required">*</span></label>
 									<div class="controls">
-										<select name="status" class="m-wrap span10">
+										<select id="status" name="status" class="m-wrap span10">
 											<option value="1" selected>显示</option>
 											<option value="0">不显示</option>
 										</select>
@@ -85,13 +86,14 @@
 								<div class="control-group">
 									<label class="control-label" for="firstName">视频介绍</label>
 									<div class="controls">
-										<textarea name="introduction" rows="" cols=""
+										<textarea name="introduction" id="introduction" rows="" cols=""
 											class="m-wrap span10" placeholder="最长128字符" maxlength="128"></textarea>
 									</div>
 								</div>
 							</form>
 							<div class="modal-footer">
 								<button type="button" class="btn green" id="submit_btn">保存</button>
+								<button type="button" class="btn" id="btn_cancel">清空</button>
 								<button type="button" data-dismiss="modal" class="btn">关闭</button>
 							</div>
 						</div>
@@ -148,7 +150,7 @@
 						"mDataProp" : "image",
 						"mRender" : function(obj) {
 							if (obj != null) {
-								return obj;
+								return '<img src="'+obj+'" width="38" height="54"/>';
 							} else {
 								return '';
 							}
@@ -181,7 +183,7 @@
 						"mDataProp" : "id",
 						"fnCreatedCell" : function(nTd,sData, oData, iRow,iCol) {
 							var html = "";
-							//html += " <a class='btn mini yellow' href='javascript:;' onclick=confirm('" + data + "','您确定要删除该视频信息吗？')>删除</a>";
+							html += '<a class="btn mini purple" onclick="editVideo('+oData.id+')"><i class="icon-edit"></i>编辑</a>';
 							return $(nTd).html(html);
 						}
 					} ],
@@ -204,7 +206,7 @@
 			function confirm(id, value) {
 				$.ajax({
 					type : 'POST',
-					url : './delete',
+					url : './deleteVideo',
 					dataType : "text",
 					data : {
 						id : id
@@ -216,7 +218,7 @@
 			}
 
 			$("#submit_btn").click(function() {
-				var id = $("#initID").val();
+				var id = $("#id").val();
 				if (id != "" && id != null) {
 					$("#video_form").attr("action", "./editActorVideo");
 				} else {
@@ -230,15 +232,44 @@
 					});
 				}
 			});
+			
+			$("#btn_cancel").click(function(){
+				$("#video_form :input").not(":button, :submit, :reset, :hidden").val("").removeAttr("checked").remove("selected");
+				document.getElementById("id").value = null;
+				document.getElementById("screenImg").src = "../media/image/defalut.jpg";
+				document.getElementById("actorVideo").src = "../media/image/timg.jpg";
+			})
+			
+			function editVideo(videoId){
+				$.ajax({
+					type : 'POST',
+					url : './editVideo',
+					dataType : "json",
+					data : {
+						id : videoId
+					},
+					success : function(data, status) {
+						var id= data.id;
+						var actorId = data.actorId;
+						var screenImg = data.image;
+						//var actorVideo = data.savePath;
+						var price = data.price;
+						var introduction = data.introduction;
+						var status = data.status;
+						
+						document.getElementById("id").value = id;
+						document.getElementById("actorId").value = actorId;
+						document.getElementById("screenImg").src = screenImg;
+						//document.getElementById("actorVideo").src = actorVideo;
+						document.getElementById("price").value = price;
+						document.getElementById("introduction").value = introduction;
+						document.getElementById("status").value = status;
+					}
+				})
+			}
 
 			App.validate('video_form', {
 				rules : {
-					"image" : {
-						required : true
-					},
-					"video" : {
-						required : true
-					},
 					"price" : {
 						required : true,
 						number : true

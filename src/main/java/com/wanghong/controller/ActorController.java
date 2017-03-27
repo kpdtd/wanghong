@@ -1,6 +1,7 @@
 package com.wanghong.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -89,9 +90,9 @@ public class ActorController extends BaseAction {
 		recordsDisplay = data.size();
 		this.writerToClient(data, iDisplayLength, recordsDisplay, recordsFiltered, recordsTotal, start);
 	}
-	
+
 	@RequestMapping("getActorVideo")
-	public void getActorVideo() throws Exception{
+	public void getActorVideo() throws Exception {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("startPage", getStart());
 		model.put("pageSize", getIDisplayLength());
@@ -99,15 +100,23 @@ public class ActorController extends BaseAction {
 		model.put("type", 1);
 		int count = actorPayVideoService.count(model);
 		recordsTotal = count;
+		String imgPath = getImgFilePath();
 		// 分页显示上面查询出的数据结果
 		List<ActorPayVideo> data = actorPayVideoService.getListByMap(model);
+		List<ActorPayVideo> data1 = new ArrayList<ActorPayVideo>();
+
+		for (ActorPayVideo apv : data) {
+			ActorPayVideo apv1 = apv;
+			apv1.setImage("../downloadFile.jsp?identity=" + imgPath + "&path=" + apv.getImage());
+			data1.add(apv1);
+		}
 		recordsFiltered = recordsTotal;
-		recordsDisplay = data.size();
-		this.writerToClient(data, iDisplayLength, recordsDisplay, recordsFiltered, recordsTotal, start);
+		recordsDisplay = data1.size();
+		this.writerToClient(data1, iDisplayLength, recordsDisplay, recordsFiltered, recordsTotal, start);
 	}
-	
+
 	@RequestMapping("addActorVideo")
-	public void addActorVideo() throws Exception{
+	public void addActorVideo() throws Exception {
 		ActorPayVideo apv = new ActorPayVideo();
 		String savePath = getImgFilePath();
 		try {
@@ -121,7 +130,7 @@ public class ActorController extends BaseAction {
 			setJsonFail(response, null, 1100, e.getMessage());
 			return;
 		}
-		
+
 		try {
 			Map<String, Object> uploadResultMap = fileUpload(savePath, "video");
 			String icon = (String) uploadResultMap.get("filePath");
@@ -133,7 +142,7 @@ public class ActorController extends BaseAction {
 			setJsonFail(response, null, 1100, e.getMessage());
 			return;
 		}
-		
+
 		try {
 			apv.setActorId(Integer.parseInt(request.getParameter("actorId")));
 			apv.setIntroduction(request.getParameter("introduction"));
@@ -147,6 +156,62 @@ public class ActorController extends BaseAction {
 			LogFactory.getInstance().getLogger().error("添加主播视频信息失败：", e);
 			setJsonFail(response, null, 1100, "添加主播信息失败！");
 		}
+	}
+	
+	@RequestMapping("editActorVideo")
+	public void editActorVideo() throws Exception {
+		ActorPayVideo apv = new ActorPayVideo();
+		String id = request.getParameter("id");
+		String savePath = getImgFilePath();
+		try {
+			Map<String, Object> uploadResultMap = fileUpload(savePath, "image");
+			String icon = (String) uploadResultMap.get("filePath");
+			apv.setImage(icon);
+		} catch (Exception e) {
+			setJsonFail(response, null, 1100, e.getMessage());
+			return;
+		}
+
+		try {
+			Map<String, Object> uploadResultMap = fileUpload(savePath, "video");
+			String icon = (String) uploadResultMap.get("filePath");
+			apv.setSavePath(icon);
+		} catch (Exception e) {
+			setJsonFail(response, null, 1100, e.getMessage());
+			return;
+		}
+
+		try {
+			apv.setId(Integer.parseInt(id));
+			apv.setActorId(Integer.parseInt(request.getParameter("actorId")));
+			apv.setIntroduction(request.getParameter("introduction"));
+			apv.setType(1);
+			apv.setPrice(Integer.parseInt(request.getParameter("price")));
+			apv.setStatus(Integer.parseInt(request.getParameter("status")));
+			apv.setCreateTime(new Date());
+			actorPayVideoService.update(apv);
+			setJsonSuccess(response, null, "修改成功", RESULT_TYPE_CLOSE_BOX_FUNCTION);
+		} catch (Exception e) {
+			LogFactory.getInstance().getLogger().error("修改主播视频信息失败：", e);
+			setJsonFail(response, null, 1100, "修改主播信息失败！");
+		}
+	}
+
+	@RequestMapping("editVideo")
+	public void editVideo() throws Exception {
+		String videoId = request.getParameter("id");
+		ActorPayVideo apv = actorPayVideoService.getById(Integer.parseInt(videoId));
+		String image = apv.getImage();
+		String savePath = apv.getSavePath();
+		String filePath = getImgFilePath();
+		if (StringUtils.isNotBlank(image)) {
+			apv.setImage("../downloadFile.jsp?identity=" + filePath + "&path=" + image);
+		}
+		if(StringUtils.isNotBlank(savePath)){
+			apv.setSavePath("../downloadFile.jsp?identity=" + filePath + "&path=" + savePath);
+		}
+		Gson g = new GsonBuilder().serializeNulls().create();
+		this.writerToClient(g.toJson(apv));
 	}
 
 	@RequestMapping("addActor")
@@ -218,7 +283,7 @@ public class ActorController extends BaseAction {
 		request.setAttribute("actorId", id);
 		return "actor/actorPhotoAdd";
 	}
-	
+
 	@RequestMapping("actorPhoto")
 	public String actorPhoto() throws Exception {
 		request.setAttribute("menu", "actor");
@@ -226,23 +291,23 @@ public class ActorController extends BaseAction {
 		request.setAttribute("actorId", id);
 		return "actor/actorPhoto";
 	}
-	
+
 	@RequestMapping("addVideo")
-	public String addVideo() throws Exception{
+	public String addVideo() throws Exception {
 		request.setAttribute("menu", "actor");
 		String id = request.getParameter("id");
 		request.setAttribute("actorId", id);
 		return "actor/actorVideo";
 	}
-	
+
 	@RequestMapping("actorPV")
-	public void actorPV() throws Exception{
+	public void actorPV() throws Exception {
 		String id = request.getParameter("actorId");
 		ActorPayVideo apv = new ActorPayVideo();
 		apv.setActorId(Integer.parseInt(id));
 		apv.setType(2);
 		List<ActorPayVideo> apvList = actorPayVideoService.getListByPo(apv);
-		Map<String,Object> apvMap = new HashMap<String,Object>();
+		Map<String, Object> apvMap = new HashMap<String, Object>();
 		String imgPath = getImgFilePath();
 		apvMap.put("ap", apvList);
 		apvMap.put("imgPath", imgPath);
@@ -333,7 +398,7 @@ public class ActorController extends BaseAction {
 		try {
 			MultipartFile file = files[0];
 			String prefix = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); // 父目录
-			
+
 			File dir = new File(getImgFilePath() + File.separator + prefix);
 			if (!dir.exists())
 				dir.mkdirs();
@@ -359,7 +424,7 @@ public class ActorController extends BaseAction {
 			msg.setFileName(fileName);
 			msg.setStatusMsg(fileName + "文件上传失败");
 		}
-		
+
 		Gson g = new GsonBuilder().serializeNulls().create();
 		this.writerToClient(g.toJson(msg));
 	}
