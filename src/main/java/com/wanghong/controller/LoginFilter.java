@@ -27,10 +27,11 @@ public class LoginFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		User user = (User) httpRequest.getSession().getAttribute("userInfo");
 		String url = httpRequest.getRequestURI();
-		if(!url.contains("login") &&  user == null && !url.contains("media") && !url.contains("downloadFile.jsp")){
+		if(url.contains("login") || user != null || url.contains("media") || !url.contains("downloadFile.jsp") || !url.contains("h5")){
+			chain.doFilter(httpRequest, httpResponse);
+		}else{
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
 		}
-		chain.doFilter(httpRequest, httpResponse);
 	}
 
 	@Override

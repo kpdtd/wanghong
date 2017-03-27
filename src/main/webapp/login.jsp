@@ -32,7 +32,7 @@
 				<div class="controls">
 					<div class="input-icon left">
 						<i class="icon-user"></i>
-						<input class="m-wrap placeholder-no-fix" placeholder="用户名" name="sysUsers.userAccount" type="text" autofocus>
+						<input class="m-wrap placeholder-no-fix" placeholder="用户名" name="sysUsers.userAccount" type="text" autofocus  value="1">
 					</div>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 				<div class="controls">
 					<div class="input-icon left">
 						<i class="icon-lock"></i>
-						<input class="m-wrap placeholder-no-fix" placeholder="密码" name="sysUsers.userPassword" type="password" value="">
+						<input class="m-wrap placeholder-no-fix" placeholder="密码" name="sysUsers.userPassword" type="password" value="1">
 					</div>
 				</div>
 			</div>

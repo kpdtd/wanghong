@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords"
+	content="Stylish Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Custom Theme files -->
+<link href="css/bootstrap.css" type="text/css" rel="stylesheet"
+	media="all">
+<link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+<link rel="stylesheet" href="css/flexslider.css" type="text/css"
+	media="screen" />
+
+<!-- blueimp Gallery的使用 https://github.com/blueimp/Gallery   使用：https://github.com/blueimp/Gallery#demo -->
+<!-- 中文：http://www.cnblogs.com/wuhuacong/p/5976619.html -->
+<link rel="stylesheet" href="css/blueimp-gallery.css">
+<link rel="stylesheet" href="css/blueimp-gallery-indicator.css">
+<link rel="stylesheet" href="css/blueimp-gallery-video.css">
+<!-- <link rel="stylesheet" href="css/demo.css">  导入这个css可以让背景变灰色，也很漂亮-->
+
+<link rel="stylesheet" href="./css/blueimp-gallery.min.css">
+<!-- blueimp Gallery end -->
+
+<!-- js -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<!-- //js -->
+<!-- start-smoth-scrolling-->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event){		
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+			});
+		});
+</script>
+<!--//end-smoth-scrolling-->
+<!--pop-up-->
+<script src="js/menu_jquery.js"></script>
+<!--//pop-up-->
+</head>
+<body>
+	<!--header-->
+	<div class="header">
+		<div class="container">
+			<!-- div class="header-left">
+				<ul> 
+					<li><a href="account.html">ACCOUNT</a></li>
+					<li class="login" >
+						<div id="loginContainer"><a href="#" id="loginButton"><span>LOGIN</span></a>
+						    <div id="loginBox">                
+						        <form id="loginForm">
+									<fieldset id="body">
+										<fieldset>
+											<label for="email">Email Address</label>
+											<input type="text" name="email" id="email">
+										</fieldset>
+										<fieldset>
+											<label for="password">Password</label>
+											<input type="password" name="password" id="password">
+										</fieldset>
+										<input type="submit" id="login" value="Sign in">
+										<label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
+									</fieldset>
+									<span><a href="#">Forgot your password?</a></span>
+								</form>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div-->
+			<div class="logo">
+				<img src="images/logo.png" alt="" />
+			</div>
+
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<!--//header-->
+	<!--banner-->
+	<div class="banner">
+		<!-- banner-text Slider starts Here -->
+		<script src="js/responsiveslides.min.js"></script>
+		<script>
+			// You can also use "$(window).load(function() {"
+				$(function () {
+				// Slideshow 3
+					$("#slider3").responsiveSlides({
+					auto: true,
+					pager:true,
+					nav:true,
+					speed: 500,
+					namespace: "callbacks",
+					before: function () {
+					$('.events').append("<li>before event fired.</li>");
+					},
+					after: function () {
+						$('.events').append("<li>after event fired.</li>");
+					}
+				});	
+			});
+		</script>
+		<!--//End-slider-script -->
+		<div id="top" class="callbacks_container">
+			<ul class="rslides" id="slider3">
+				<li>
+					<div class="banner1"></div>
+				</li>
+				<li>
+					<div class="banner1 banner2"></div>
+				</li>
+				<li>
+					<div class="banner1 banner3"></div>
+				</li>
+				<li>
+					<div class="banner1 banner4"></div>
+				</li>
+			</ul>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<!--//banner-->
+	<!--welcome-->
+	<div class="container">
+		<div class="welcome">
+			<h2 class="hdng-two">Lorem Ipsum generators on the Internet tend
+				to repeat predefined</h2>
+			<div class="news-info">
+				<div class="col-md-6 news-grids">
+					<div class="news-grids-left">
+						<img src="images/img19.jpg" class="img-responsive" alt="/">
+					</div>
+					<div class="news-grids-right">
+						<h5>August 20, 2015</h5>
+						<p>Adipisci velit, sed quia non numquam eius modi tempora
+							incidunt ut labore et dolore magnam aliquam quaerat voluptatem</p>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!--//welcome-->
+		<!--    suntao -->
+		<div class="container">
+		
+			<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
+			<!-- 				<div id="blueimp-image-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+				    <div class="slides"></div>
+				    <h3 class="title"></h3>
+				    <a class="prev">‹</a>
+				    <a class="next">›</a>
+				    <a class="play-pause"></a>
+				</div> -->
+			<h2>Carousel video gallery</h2>
+			<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
+			<div id="blueimp-video-carousel"
+				class="blueimp-gallery blueimp-gallery-controls blueimp-gallery-carousel">
+				<div class="slides"></div>
+				<h3 class="title"></h3>
+				<a class="prev">‹</a> <a class="next">›</a> <a class="play-pause"></a>
+			</div>
+
+			<h2>Carousel video gallery</h2>
+			<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
+			<div id="blueimp-video-carousel1"
+				class="blueimp-gallery blueimp-gallery-controls blueimp-gallery-carousel">
+				<div class="slides"></div>
+				<h3 class="title"></h3>
+				<a class="prev">‹</a> <a class="next">›</a> <a class="play-pause"></a>
+			</div>
+		</div>
+
+	
+	<!--services-->
+	<!--footer-->
+	<div class="footer">
+		<div class="container">
+			<div class="footer-left">
+				<p>
+					Copyright &copy; 2017. All rights reserved. <a target="_blank"
+						href=""></a>
+				</p>
+			</div>
+			<div class="social-icons">
+				<!-- 		将来插入分享		<ul>
+					<li><a href="#" class="fb"></a></li>
+					<li><a href="#"></a></li>
+					<li><a href="#" class="gg"></a></li>
+					<li><a href="#" class="pn"></a></li>
+				</ul> -->
+			</div>
+		</div>
+	</div>
+	<!--//footer-->
+	<!--smooth-scrolling-of-move-up-->
+	<!-- 	<script type="text/javascript">
+		$(document).ready(function() {
+			$().UItoTop({ easingType: 'easeOutQuart' });
+		});
+	</script>
+	<a href="#" id="toTop" style="display: block;"> <span
+		id="toTopHover" style="opacity: 1;"> </span></a> -->
+
+	<!--图片展示脚本-->
+	<script src="./js/blueimp-helper.js"></script>
+	<script src="./js/blueimp-gallery.min.js"></script>
+	<script src="./js/blueimp-gallery-fullscreen.js"></script>
+	<script src="./js/blueimp-gallery-indicator.js"></script>
+	<script src="./js/blueimp-gallery-video.js"></script>
+	<script src="./js/blueimp-gallery-vimeo.js"></script>
+	<script src="./js/blueimp-gallery-youtube.js"></script>
+	<script src="./js/jquery.blueimp-gallery.min.js"></script>
+	<!-- <script src="js/demo/demo.js"></script> -->
+	<!-- 下面的有效，应该是企业自己定制的,其实参考js中的demo.js使用 -->
+
+	<script>   
+    blueimp.Gallery([
+        {
+            title: 'Winform框架增量开发过程',
+            href: 'http://pgccdn.v.baidu.com/1317602326_3197423537_20170320131502.mp4?authorization=bce-auth-v1%2Fc308a72e7b874edd9115e4614e1d62f6%2F2017-03-20T05%3A15%3A11Z%2F-1%2F%2F0838227a3d3ddc878e3f662595b60c1c1de28ee68696fd6567e0d706878fe1a0&responseCacheControl=max-age%3D8640000&responseExpires=Wed%2C+28+Jun+2017+13%3A15%3A11+GMT&xcode=e0339a8259d7e3e7e4141d398e6b5637474e5637b55e3863&time=1490349149',
+            type: 'video/mp4',
+            poster: 'images/img1.jpg'
+        },
+        {
+            title: '混合框架图片显示及存储',
+            href: 'http://pgccdn.v.baidu.com/1317602326_3197423537_20170320131502.mp4?authorization=bce-auth-v1%2Fc308a72e7b874edd9115e4614e1d62f6%2F2017-03-20T05%3A15%3A11Z%2F-1%2F%2F0838227a3d3ddc878e3f662595b60c1c1de28ee68696fd6567e0d706878fe1a0&responseCacheControl=max-age%3D8640000&responseExpires=Wed%2C+28+Jun+2017+13%3A15%3A11+GMT&xcode=e0339a8259d7e3e7e4141d398e6b5637474e5637b55e3863&time=1490349149',
+            type: 'video/mp4',
+            thumbnail: 'images/img11111.jpg'//没有图片也能播放
+        },
+    ], 
+    {
+        container: '#blueimp-video-carousel',
+        carousel: true
+    });
+
+    blueimp.Gallery([
+                 {
+                         title: 'Winform框架增量开发过程',
+                         href: 'http://pgccdn.v.baidu.com/1317602326_3197423537_20170320131502.mp4?authorization=bce-auth-v1%2Fc308a72e7b874edd9115e4614e1d62f6%2F2017-03-20T05%3A15%3A11Z%2F-1%2F%2F0838227a3d3ddc878e3f662595b60c1c1de28ee68696fd6567e0d706878fe1a0&responseCacheControl=max-age%3D8640000&responseExpires=Wed%2C+28+Jun+2017+13%3A15%3A11+GMT&xcode=e0339a8259d7e3e7e4141d398e6b5637474e5637b55e3863&time=1490349149',
+                         type: 'video/mp4',
+                         poster: 'images/img1.jpg'
+                     },
+                 ], 
+                 {
+                     container: '#blueimp-video-carousel1',
+                     carousel: true
+                 });    
+
+    //回调示例，增加自己的方法？
+ /*    
+    $('#blueimp-video-carousel')
+    .on('open', function (event) {
+        alert("dakai");
+    })
+    .on('opened', function (event) {
+    	alert("opened");
+    })
+    .on('slide', function (event, index, slide) {
+    	alert("slide");
+    })
+    .on('slideend', function (event, index, slide) {
+        // Gallery slideend event handler
+    })
+    .on('slidecomplete', function (event, index, slide) {
+        // Gallery slidecomplete event handler
+    })
+    .on('close', function (event) {
+        // Gallery close event handler
+    })
+    .on('closed', function (event) {
+        // Gallery closed event handler
+    }); */
+</script>
+
+
+</body>
+</html>
