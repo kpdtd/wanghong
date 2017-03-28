@@ -36,3 +36,4 @@
 <!-- END PAGE LEVEL STYLES -->
 <link rel="shortcut icon" href="<%=request.getContextPath() %>/media/image/favicon.ico" />
 <link rel="shortcut icon" href="<%=request.getContextPath() %>/media/style.min.css" />
+<link rel="shortcut icon" href="<%=request.getContextPath() %>/media/css/search.css" />

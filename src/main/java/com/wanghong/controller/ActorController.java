@@ -436,6 +436,18 @@ public class ActorController extends BaseAction {
 	}
 	
 	
+	@RequestMapping(value="updatePhotoState")
+	public void updatePhotoState() throws Exception{
+		String apId = request.getParameter("apId");
+		ActorPayVideo apv = actorPayVideoService.getById(Integer.parseInt(apId));
+		if(apv.getStatus() == 1){
+			apv.setStatus(0);
+		}else{
+			apv.setStatus(1);
+		}
+		actorPayVideoService.update(apv);
+	}
+	
 	@RequestMapping(value="actorInfo")
 	public void actorInfo() throws Exception{
 		String actorId = request.getParameter("actorId");

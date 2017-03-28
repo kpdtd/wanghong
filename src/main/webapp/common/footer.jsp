@@ -75,3 +75,4 @@
 <script src="<%=request.getContextPath() %>/media/js/bootbox.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/media/common.js"></script>
 <script src="<%=request.getContextPath() %>/media/jstree.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath() %>/media/js/search.js" type="text/javascript"></script>

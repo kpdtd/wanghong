@@ -23,7 +23,11 @@ var actorId = "${actorId}";
 				var apList = new Array(); // 图片数组
 				if(ap.length > 0){
 					for(var i=0;i<ap.length;i++){
-						apList[i] = '<li class="span3"><img src="../downloadFile.jsp?identity='+imgPath+'&path='+ap[i].savePath+'"" alt=""></li>';
+						if(ap[i].status == 1){
+							apList[i] = '<li class="span3"><a onclick="updatePhotoState('+ap[i].id+');">显示</a><img src="../downloadFile.jsp?identity='+imgPath+'&path='+ap[i].savePath+'"" alt=""></li>';
+						}else{
+							apList[i] = '<li class="span3"><a onclick="updatePhotoState('+ap[i].id+');">不显示</a><img src="../downloadFile.jsp?identity='+imgPath+'&path='+ap[i].savePath+'"" alt=""></li>';
+						}
 					}
 				}
 				var apHtml = "";
@@ -46,6 +50,18 @@ var actorId = "${actorId}";
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				//layer.msg('操作失败！');
+			}
+		});
+	}
+	
+	function updatePhotoState(id){
+		$.ajax({
+			url : "./updatePhotoState",
+			type : "post",
+			data : {apId : id},
+			dataType : "text",
+			success : function(data) {
+				showPV(actorId);
 			}
 		});
 	}
