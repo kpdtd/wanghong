@@ -168,12 +168,10 @@
 				}, {
 					"sClass" : "center",
 					"mDataProp" : "nickname",
-					"mRender" : function(obj){
-						if(obj != null){
-							return cutString(obj,20);
-						}else{
-							return "";
-						}
+					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+						var html = "";
+						html += " <a href='../h5/index.html?actorId="+oData.id+"' target='_Blank'>"+oData.nickname+"</a>";
+						return $(nTd).html(html);	
 					}
 				}, {
 					"sClass" : "center",
@@ -197,13 +195,15 @@
 					}
 				}, {
 					"sClass" : "center",
-					"mDataProp" : "state",
-					"mRender" : function(obj){
-						if(obj != 0){
-							return '上线';
+					"mDataProp" : "id",
+					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+						var html = "";
+						if(oData.state == 0 || oData.state == null){
+							html += " <a href='javascript:;' onclick=confirm('"+oData.id+"',"+oData.state+",'您确认要上线该主播吗?')>下线</a>";
 						}else{
-							return "下线";
+							html += " <a href='javascript:;' onclick=confirm('"+oData.id+"',"+oData.state+",'您确认要下线该主播吗?')>上线</a>";
 						}
+						return $(nTd).html(html);	
 					}
 				}, {
 					"sClass" : "center",
@@ -230,14 +230,8 @@
 					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 						var html = "";
 						html += '<a class="btn mini purple" onclick="edit('+oData.id+')"><i class="icon-edit"></i>编辑</a>';
-						if(oData.state == 0 || oData.state == null){
-							html += " <a class='btn mini red' href='javascript:;' onclick=confirm('"+oData.id+"',"+oData.state+",'您确认要上线该主播吗?')><i class='icon-ok'></i> 上线</a>";
-						}else{
-							html += " <a class='btn mini green' href='javascript:;' onclick=confirm('"+oData.id+"',"+oData.state+",'您确认要下线该主播吗?')><i class='icon-remove'></i> 下线</a>";
-						}
 						
 						html += " <a class='btn mini green' href='javascript:;' onclick=videoManage('"+oData.id+"')><i class='icon-facetime-video'></i> 视频管理</a>";
-						html += " <a class='btn mini green' href='../h5/index.html?actorId="+oData.id+"' target='_Blank'><i class='icon-search'></i> H5查看</a>";
 						return $(nTd).html(html);	
 					}
 				} ],
