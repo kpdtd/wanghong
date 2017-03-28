@@ -100,7 +100,7 @@
 			App.init(); // initlayout and core plugins
 			UIModals.init();
 			TableManaged.init();
-			Search.init();
+			//Search.init();
 			initPage();
 			FormComponents.init();
 			$('.btn.green').click(function(){
