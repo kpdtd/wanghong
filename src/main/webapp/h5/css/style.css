@@ -101,7 +101,7 @@ span.menu {
 .banner{
 	position:relative;
 }
-.banner1{
+/* .banner1{
 	background:url(../images/banner.jpg)no-repeat 0px 0px;	
 	background-size:cover; 
 	min-height: 600px;
@@ -117,7 +117,7 @@ span.menu {
 .banner4{
 	background:url(../images/460.jpeg)no-repeat 0px 0px;
 	background-size:cover;
-}
+} */
 /*--//banner--*/
 /*------------------ Slider Part starts Here----------*/
 #slider3,#slider4 {

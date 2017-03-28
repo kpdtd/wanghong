@@ -1,11 +1,17 @@
 package com.wanghong.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -428,4 +434,38 @@ public class ActorController extends BaseAction {
 		Gson g = new GsonBuilder().serializeNulls().create();
 		this.writerToClient(g.toJson(msg));
 	}
+	
+	
+	@RequestMapping(value="actorInfo")
+	public void actorInfo() throws Exception{
+		String actorId = request.getParameter("actorId");
+		Map<String,Object> actorInfoMap = new HashMap<String,Object>();
+		try {
+			String filePath = getImgFilePath();
+			Actor actor = actorService.getById(Integer.parseInt(actorId));
+			ActorPayVideo apv = new ActorPayVideo();
+			apv.setActorId(Integer.parseInt(actorId));
+			List<ActorPayVideo> apvList = actorPayVideoService.getListByPo(apv);
+			List<ActorPayVideo> apList = new ArrayList<ActorPayVideo>();
+			List<ActorPayVideo> avList = new ArrayList<ActorPayVideo>();
+			for(ActorPayVideo actorPayVideo : apvList){
+				if(actorPayVideo.getType() == 2){ // 相册
+					apList.add(actorPayVideo);
+				}else if(actorPayVideo.getType() == 1){ // 视频
+					avList.add(actorPayVideo);
+				}
+			}
+			
+			actorInfoMap.put("actorBaseInfo", actor);
+			actorInfoMap.put("ap", apList);
+			actorInfoMap.put("av", avList);
+			actorInfoMap.put("filePath", filePath);
+			Gson g = new GsonBuilder().serializeNulls().create();
+			this.writerToClient(g.toJson(actorInfoMap));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	
 }

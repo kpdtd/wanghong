@@ -100,6 +100,7 @@
 			App.init(); // initlayout and core plugins
 			UIModals.init();
 			TableManaged.init();
+			Search.init();
 			initPage();
 			FormComponents.init();
 			$('.btn.green').click(function(){
@@ -236,6 +237,7 @@
 						}
 						
 						html += " <a class='btn mini green' href='javascript:;' onclick=videoManage('"+oData.id+"')><i class='icon-facetime-video'></i> 视频管理</a>";
+						html += " <a class='btn mini green' href='../h5/index.html?actorId="+oData.id+"' target='_Blank'><i class='icon-search'></i> H5查看</a>";
 						return $(nTd).html(html);	
 					}
 				} ],
