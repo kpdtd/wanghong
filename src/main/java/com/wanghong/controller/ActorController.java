@@ -457,6 +457,7 @@ public class ActorController extends BaseAction {
 			Actor actor = actorService.getById(Integer.parseInt(actorId));
 			ActorPayVideo apv = new ActorPayVideo();
 			apv.setActorId(Integer.parseInt(actorId));
+			apv.setStatus(1);
 			List<ActorPayVideo> apvList = actorPayVideoService.getListByPo(apv);
 			List<ActorPayVideo> apList = new ArrayList<ActorPayVideo>();
 			List<ActorPayVideo> avList = new ArrayList<ActorPayVideo>();
