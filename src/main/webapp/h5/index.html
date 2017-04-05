@@ -58,6 +58,7 @@
 		<!-- banner-text Slider starts Here -->
 		<script src="js/responsiveslides.min.js"></script>
 		<script>
+		var host = window.location.host;
 		$.ajax({
 			type : 'POST',
 			url : '../actor/actorInfo',
@@ -75,7 +76,7 @@
 					if(apList.length == 0){
 						return;
 					}
-					apHtml += ('<li><div style="background:url(http://localhost:8080/vp/'+apList[tindex].savePath+')no-repeat 0px 0px;background-size:cover; min-height: 600px;" ></div></li>');
+					apHtml += ('<li><div style="background:url(http://'+host+'/vp/'+apList[tindex].savePath+')no-repeat 0px 0px;background-size:cover; min-height: 600px;" ></div></li>');
 				});
 				$("#slider3").html(apHtml);
 				
@@ -92,7 +93,7 @@
 						$('.events').append("<li>after event fired.</li>");
 					}
 				});	
-				$(".news-grids-left").html('<img id="icon" src="http://localhost:8080/vp/'+actorInfo.icon+'" class="img-responsive" alt="/">');
+				$(".news-grids-left").html('<img id="icon" src="http://'+host+'/vp/'+actorInfo.icon+'" class="img-responsive" alt="/">');
 				$("#nickname").html(actorInfo.nickname);
 				$("#actorInfo").html('性别:' + (actorInfo.sex == 1 ? '男' : '女'));
 				$("#signature").html('个性签名:'+actorInfo.signature);
@@ -116,9 +117,9 @@
 						[
 						 	{
 							    title: avList[tindex].introduction,
-							    href: 'http://localhost:8080/vp/'+avList[tindex].savePath,
+							    href: 'http://'+host+'/vp/'+avList[tindex].savePath,
 							    type: 'video/mp4',
-							    poster: 'http://localhost:8080/vp/'+avList[tindex].image
+							    poster: 'http://'+host+'/vp/'+avList[tindex].image
 							},
 						], 
 					{
@@ -209,6 +210,7 @@
 	<!-- 下面的有效，应该是企业自己定制的,其实参考js中的demo.js使用 -->
 
 	<script>   
+	
 </script>
 
 
